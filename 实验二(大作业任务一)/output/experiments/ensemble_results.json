@@ -1,0 +1,104 @@
+{
+  "configuration": {
+    "validation_ratio": 0.2,
+    "seed": 2026,
+    "item_item_cf": {
+      "neighbors": 20,
+      "minimum_common_users": 2,
+      "similarity_shrinkage": 10.0,
+      "similarity_cache_size": 250000
+    },
+    "matrix_factorization": {
+      "factors": 5,
+      "epochs": 8,
+      "learning_rate": 0.002,
+      "learning_rate_decay": 0.95,
+      "factor_regularization": 0.5,
+      "bias_regularization": 0.1,
+      "seed": 2026
+    }
+  },
+  "component_results": {
+    "item_item_cf": {
+      "rmse": 17.21976241724554,
+      "training_seconds": 1.2755836999999999,
+      "prediction_seconds": 130.26329950000002
+    },
+    "matrix_factorization": {
+      "rmse": 17.400366069219004,
+      "training_seconds": 15.518083999999988,
+      "prediction_seconds": 0.13612620000000675
+    }
+  },
+  "optimal_ensemble": {
+    "item_cf_weight": 0.6551032963199183,
+    "matrix_factorization_weight": 0.34489670368008174,
+    "rmse": 17.15000254043254
+  },
+  "ensemble_resources": {
+    "training_seconds": 16.793667699999986,
+    "prediction_seconds": 130.39942570000002,
+    "peak_memory_mb": 81.1575117111206
+  },
+  "selected_final_weight": {
+    "item_cf_weight": 0.6551032963199183,
+    "matrix_factorization_weight": 0.34489670368008174
+  },
+  "weight_grid": [
+    {
+      "item_cf_weight": 0.0,
+      "matrix_factorization_weight": 1.0,
+      "rmse": 17.400366069219004
+    },
+    {
+      "item_cf_weight": 0.1,
+      "matrix_factorization_weight": 0.9,
+      "rmse": 17.33013121382786
+    },
+    {
+      "item_cf_weight": 0.2,
+      "matrix_factorization_weight": 0.8,
+      "rmse": 17.27128473149954
+    },
+    {
+      "item_cf_weight": 0.3,
+      "matrix_factorization_weight": 0.7,
+      "rmse": 17.223943349504687
+    },
+    {
+      "item_cf_weight": 0.4,
+      "matrix_factorization_weight": 0.6,
+      "rmse": 17.18820213343268
+    },
+    {
+      "item_cf_weight": 0.5,
+      "matrix_factorization_weight": 0.5,
+      "rmse": 17.16413354920383
+    },
+    {
+      "item_cf_weight": 0.6,
+      "matrix_factorization_weight": 0.4,
+      "rmse": 17.151786736443796
+    },
+    {
+      "item_cf_weight": 0.7,
+      "matrix_factorization_weight": 0.30000000000000004,
+      "rmse": 17.15118701001103
+    },
+    {
+      "item_cf_weight": 0.8,
+      "matrix_factorization_weight": 0.19999999999999996,
+      "rmse": 17.16233560138789
+    },
+    {
+      "item_cf_weight": 0.9,
+      "matrix_factorization_weight": 0.09999999999999998,
+      "rmse": 17.185209646068756
+    },
+    {
+      "item_cf_weight": 1.0,
+      "matrix_factorization_weight": 0.0,
+      "rmse": 17.21976241724554
+    }
+  ]
+}

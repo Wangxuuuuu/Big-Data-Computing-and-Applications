@@ -1,0 +1,44 @@
+{
+  "model": "item_item_cf_and_matrix_factorization_ensemble",
+  "weights": {
+    "item_item_cf": 0.6551032963199183,
+    "matrix_factorization": 0.34489670368008174
+  },
+  "configuration": {
+    "seed": 2026,
+    "item_item_cf": {
+      "neighbors": 20,
+      "minimum_common_users": 2,
+      "similarity_shrinkage": 10.0,
+      "similarity_cache_size": 250000
+    },
+    "matrix_factorization": {
+      "factors": 5,
+      "epochs": 8,
+      "learning_rate": 0.002,
+      "learning_rate_decay": 0.95,
+      "factor_regularization": 0.5,
+      "bias_regularization": 0.1,
+      "seed": 2026
+    }
+  },
+  "data": {
+    "training_ratings": 90854,
+    "test_users": 610,
+    "test_pairs": 9982,
+    "new_test_users": 12,
+    "new_test_items": 647
+  },
+  "timing_seconds": {
+    "item_item_cf_training": 0.6940763999999999,
+    "matrix_factorization_training": 5.846769500000001,
+    "prediction_and_writing": 25.0994099
+  },
+  "validation": {
+    "predictions": 9982,
+    "minimum_prediction": 24.870695,
+    "maximum_prediction": 100.0,
+    "mean_prediction": 71.45961843277838,
+    "sha256": "21c370718e7fffefb363c5da1c815ff5c3ebb42130e097e98d5c43d0ce41aaa2"
+  }
+}

@@ -1,0 +1,160 @@
+{
+  "evaluation_protocol": {
+    "split": "per-user holdout",
+    "validation_ratio": 0.2,
+    "seed": 2026,
+    "metric": "RMSE",
+    "runtime_environment": "Windows, Python 3.8.0",
+    "resource_measurement": "Python tracemalloc peak allocated memory"
+  },
+  "dataset": {
+    "users": 598,
+    "items": 9077,
+    "ratings": 90854,
+    "minimum_score": 10.0,
+    "maximum_score": 100.0,
+    "mean_score": 69.88211856384969,
+    "density": 0.016737883208801103,
+    "sparsity": 0.9832621167911989
+  },
+  "split": {
+    "training_ratings": 72687,
+    "validation_ratings": 18167,
+    "test_users": 610,
+    "test_pairs": 9982
+  },
+  "cold_start": {
+    "validation_pairs_with_new_user": 0,
+    "validation_pairs_with_new_item": 709,
+    "test_users_not_in_full_training_data": 12,
+    "test_items_not_in_full_training_data": 647,
+    "test_pairs_with_new_user": 303,
+    "test_pairs_with_new_item": 659
+  },
+  "model_configuration": {
+    "global_mean": {},
+    "bias_baseline": {
+      "regularization": 10.0,
+      "epochs": 10
+    },
+    "item_item_cf": {
+      "neighbors": 20,
+      "minimum_common_users": 2,
+      "similarity_shrinkage": 10.0,
+      "similarity_cache_size": 250000
+    },
+    "matrix_factorization": {
+      "factors": 5,
+      "epochs": 8,
+      "learning_rate": 0.002,
+      "learning_rate_decay": 0.95,
+      "factor_regularization": 0.5,
+      "bias_regularization": 0.1,
+      "seed": 2026
+    },
+    "ensemble": {
+      "item_item_cf_weight": 0.6551032963199183,
+      "matrix_factorization_weight": 0.34489670368008174
+    }
+  },
+  "model_results": [
+    {
+      "model": "global_mean",
+      "rmse": 20.854125433454005,
+      "training_seconds": 0.004430900000000015,
+      "prediction_seconds": 0.00756119999999999,
+      "peak_memory_mb": 0.1527996063232422
+    },
+    {
+      "model": "bias_baseline",
+      "rmse": 17.471207300289958,
+      "training_seconds": 1.3422078,
+      "prediction_seconds": 0.06259339999999991,
+      "peak_memory_mb": 10.388427734375
+    },
+    {
+      "model": "item_item_cf",
+      "rmse": 17.21976241724554,
+      "training_seconds": 1.5986680000000002,
+      "prediction_seconds": 125.17808429999998,
+      "peak_memory_mb": 81.10053157806396
+    },
+    {
+      "model": "matrix_factorization",
+      "rmse": 17.400366069219004,
+      "training_seconds": 17.3838389,
+      "prediction_seconds": 0.14999760000000606,
+      "peak_memory_mb": 10.385719299316406
+    },
+    {
+      "model": "ensemble",
+      "rmse": 17.15000254043254,
+      "training_seconds": 16.793667699999986,
+      "prediction_seconds": 130.39942570000002,
+      "peak_memory_mb": 81.1575117111206
+    }
+  ],
+  "matrix_factorization_tuning": {
+    "candidate_count": 8,
+    "selected": {
+      "factors": 5,
+      "epochs": 8,
+      "learning_rate": 0.002,
+      "factor_regularization": 0.5,
+      "bias_regularization": 0.1,
+      "rmse": 17.400366069219004,
+      "training_seconds": 4.186363
+    }
+  },
+  "relative_rmse_reduction_percent": {
+    "bias_baseline_vs_global_mean": 16.221817327986336,
+    "item_item_cf_vs_bias_baseline": 1.4391958078377576,
+    "matrix_factorization_vs_bias_baseline": 0.40547416016166427,
+    "ensemble_vs_item_item_cf": 0.40511521078326723,
+    "ensemble_vs_global_mean": 17.762062978097106
+  },
+  "final_prediction": {
+    "model": "item_item_cf_and_matrix_factorization_ensemble",
+    "weights": {
+      "item_item_cf": 0.6551032963199183,
+      "matrix_factorization": 0.34489670368008174
+    },
+    "configuration": {
+      "seed": 2026,
+      "item_item_cf": {
+        "neighbors": 20,
+        "minimum_common_users": 2,
+        "similarity_shrinkage": 10.0,
+        "similarity_cache_size": 250000
+      },
+      "matrix_factorization": {
+        "factors": 5,
+        "epochs": 8,
+        "learning_rate": 0.002,
+        "learning_rate_decay": 0.95,
+        "factor_regularization": 0.5,
+        "bias_regularization": 0.1,
+        "seed": 2026
+      }
+    },
+    "data": {
+      "training_ratings": 90854,
+      "test_users": 610,
+      "test_pairs": 9982,
+      "new_test_users": 12,
+      "new_test_items": 647
+    },
+    "timing_seconds": {
+      "item_item_cf_training": 0.6940763999999999,
+      "matrix_factorization_training": 5.846769500000001,
+      "prediction_and_writing": 25.0994099
+    },
+    "validation": {
+      "predictions": 9982,
+      "minimum_prediction": 24.870695,
+      "maximum_prediction": 100.0,
+      "mean_prediction": 71.45961843277838,
+      "sha256": "21c370718e7fffefb363c5da1c815ff5c3ebb42130e097e98d5c43d0ce41aaa2"
+    }
+  }
+}

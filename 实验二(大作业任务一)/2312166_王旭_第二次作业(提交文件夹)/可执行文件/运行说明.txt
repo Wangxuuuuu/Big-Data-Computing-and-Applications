@@ -1,0 +1,18 @@
+推荐系统最终结果生成程序
+
+一、运行环境
+1. 操作系统：Windows。
+2. Python 版本：实验使用 Python 3.8.0，兼容 Python 3.8 及以上版本。
+3. 模型训练与预测仅使用 Python 标准库，无需安装第三方依赖。
+
+二、目录说明
+本目录中的 data/train.txt 和 data/test.txt 分别是训练数据与正式测试数据。
+程序直接调用相邻“源码”目录中的 generate_predictions.py 及 src 模块，以避免重复提交同一份源码。因此，请保持“可执行文件”和“源码”目录处于同一级目录，不要单独移动本目录。
+
+三、运行方法
+方法一：双击“生成最终结果.bat”。
+方法二：在本目录打开命令行，执行以下命令：
+python "..\源码\generate_predictions.py" --train "data\train.txt" --test "data\test.txt" --output "output\final\result.txt"
+
+四、输出说明
+程序会在本目录生成 output/final/result.txt，并自动校验用户—物品顺序、预测记录数、评分范围和 SHA-256。完整训练与正式测试集预测通常约需 30 秒至 1 分钟，实际时间取决于计算机性能。
