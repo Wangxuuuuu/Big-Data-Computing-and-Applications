@@ -1,0 +1,99 @@
+一、提交目录结构（对齐老师压缩包内 C++ 示例）
+------------------------------------------
+将本文件夹整体重命名为作业要求的 zip 前缀形式，例如：
+  2000000_小张_2111111_小王_2222222_小林_第一次作业
+其下保持四个子目录（与示例一致）：
+  源码\          — PageRank.cpp、compile-parameter.txt
+  可执行文件\    — 提交 PageRank.exe（由你编译后复制进来）
+  实验结果\      — Res.txt（teleport=0.85，Top 100）
+  实验报告\      — 实验报告 PDF/Word 等
+
+打包：将上述整个文件夹打成 zip，文件名与文件夹名一致。
+
+二、compile-parameter.txt 怎么写
+------------------------------------------
+- 放在「源码」目录下，与 PageRank.cpp 同目录。
+- 第一行写一条完整 g++ 命令即可（见该文件内示例）。
+- 老师提供的 memoryuse-cpp.py 会用环境变量覆盖部分选项（见下文），
+  你提交给助教的 compile-parameter.txt 仍以「你真实用来生成提交版 exe 的命令」为准。
+
+三、如何用 memoryuse-cpp.py 做内存/耗时自测
+------------------------------------------
+脚本位置：pagerank大作业\memoryuse-cpp.py
+依赖：已安装 Python 的 psutil（若缺包：pip install psutil）。
+
+【推荐】不改系统环境变量时，可在「pagerank大作业」目录一键自测。
+脚本会自动设置 CXXFLAGS=-std=c++17，从而覆盖 memoryuse-cpp.py 内置默认的
+「-fopenmp -mavx2」（避免本机 TDM-GCC 缺 libgomp 时编译失败）。
+
+  cd "d:\大数据计算及应用\实验一\pagerank大作业"
+  .\自测-memory-cpp.ps1
+
+可选指定 cpp 路径：
+
+  .\自测-memory-cpp.ps1 "Cpp作业工作区\源码\PageRank.cpp"
+
+若希望使用 MinGW 的 g++（支持 OpenMP 时再配合 CXXFLAGS），可在同一会话先设置后再运行脚本：
+
+  $env:CXX="D:\Mingw_19.0\MinGW\bin\g++.exe"
+  .\自测-memory-cpp.ps1
+
+脚本会向可执行文件传入 Data.txt 及临时输出路径，避免覆盖「实验结果\Res.txt」。
+
+---
+
+手动调用时的等价写法（仍建议先 cd 到 pagerank大作业）：
+
+  $env:CXXFLAGS="-std=c++17"
+  python memoryuse-cpp.py "……\PageRank.cpp 的绝对路径" "……\Data.txt 的绝对路径" "$env:TEMP\pagerank_memtest_res.txt"
+
+注意：在 PowerShell 里若写 $env:CXXFLAGS=""，往往会「删除」该变量，
+memoryuse-cpp.py 仍会回退到默认 -fopenmp。请改用非空标志（如上）或先不要设置 CXXFLAGS，
+直接用上面的「自测-memory-cpp.ps1」。
+
+1）仅编译并跑空参数（不占满算法负载）时：
+
+  python memoryuse-cpp.py "Cpp作业工作区\源码\PageRank.cpp"
+
+2）若你的源码就叫 pagerank.cpp 且放在当前目录，可简写：
+
+  python memoryuse-cpp.py
+
+脚本行为简述：
+- 使用环境变量 CXX（默认 g++）、CXXFLAGS（默认 "-fopenmp -mavx2"）编译；
+- 编译命令等价于：%CXX% %CXXFLAGS% <你的.cpp> -o <同主名>.exe -O2
+- 连续运行可执行文件 10 次，统计 RSS 峰值并取平均，追加写入当前目录下的 memory_usage_log.txt。
+
+若你只想用 compile-parameter.txt 里的选项自测，可在同一次命令前设置 CXXFLAGS，例如仅 OpenMP：
+
+  $env:CXXFLAGS="-fopenmp"
+  python memoryuse-cpp.py "Cpp作业工作区\源码\PageRank.cpp"
+
+Windows 上若未安装 g++，脚本会在编译阶段报错，需先安装 MinGW-w64 或 MSYS2 等并提供 g++。
+
+若编译报错类似「cannot read spec file libgomp.spec」或找不到 libgomp：
+  说明当前默认的 g++（常见于 TDM-GCC 等旧/精简包）未带完整 OpenMP。可选做法：
+  (1) 换用带 OpenMP 的 MinGW-w64：例如本机已存在 D:\Mingw_19.0\MinGW\bin\g++.exe 时，自测可指定编译器：
+        $env:CXX="D:\Mingw_19.0\MinGW\bin\g++.exe"
+        python memoryuse-cpp.py "Cpp作业工作区\源码\PageRank.cpp"
+      或在「系统环境变量 Path」里把完整 MinGW 的 bin 放在 TDM-GCC 的 bin 之前，使 where g++ 指向 MinGW。
+  (2) 新装工具链：MSYS2 下 pacman 安装 mingw-w64-x86_64-gcc；或 winlibs 等自带 libgomp 的 MinGW-w64 压缩包。
+  (3) 若暂时不用 OpenMP：自测时用非空 CXXFLAGS 覆盖默认（如 $env:CXXFLAGS="-std=c++17"），
+      勿用 $env:CXXFLAGS=""（PowerShell 常会把变量删掉，脚本仍回退到 -fopenmp）。
+      作业核心（PageRank、稀疏/分块）不强制 OpenMP；compile-parameter.txt 以你真实编译命令为准。
+
+四、生成提交用 exe 的推荐流程
+------------------------------------------
+1. 在「源码」目录打开终端，按 compile-parameter.txt 第一行手动编译；或从上级目录写清相对路径。
+2. 将生成的 PageRank.exe 复制到「可执行文件」目录。
+3. 确认在另一台未装编译器的电脑上也能运行（静态链接时更容易满足）。
+
+（仓库已用 TDM-GCC 验证：`g++ -O2 -std=c++17 -static ...` 可生成全静态 PageRank.exe，
+并已复制到「可执行文件」目录；若 PATH 中 `g++` 即 TDM，无需再单独安装 MinGW。）
+
+五、进一步优化（可选，当前工程已满足时间与内存裕量）
+------------------------------------------
+- 编译：可在本机尝试 -O3；「-march=native」通常更快但可执行文件可能不宜跨 CPU 提交，提交前改回通用选项。
+- 运行：程序默认安静运行（不写收敛信息）；调试或报告需要时可加命令行 -v / --verbose，
+  或设置环境变量 PAGERANK_VERBOSE（任意非空）查看迭代次数与 L1。
+- 算法：已为 CSR 稀疏存储 + 源节点分块；若助教数据显著变大，再考虑并行（OpenMP）或 CSC/排序边等。

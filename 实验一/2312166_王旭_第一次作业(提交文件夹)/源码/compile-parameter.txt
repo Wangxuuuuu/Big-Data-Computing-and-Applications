@@ -1,0 +1,1 @@
+g++ -O2 -std=c++17 -static -finput-charset=UTF-8 -fexec-charset=UTF-8 PageRank.cpp -o PageRank.exe
